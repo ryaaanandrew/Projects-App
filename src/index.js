@@ -4,13 +4,20 @@ import App from './components/App';
 import reduxThunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { createStore , applyMiddleware, compose } from 'redux';
-import reducers from './store/reducers';
+import rootReducer from './store/reducers';
+import { reduxFirestore, getFirestore } from 'redux-firestore';
+import { reactReduxFirebase, getFirebase } from 'react-redux-firebase';
+import fbConfig from './config/firebaseConfig';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(
-    reducers,
-    composeEnhancers(applyMiddleware(reduxThunk))
-);
+
+const store = createStore(rootReducer,
+    compose(
+      applyMiddleware(reduxThunk.withExtraArgument({getFirebase, getFirestore})),
+      reactReduxFirebase(fbConfig), // redux binding for firebase
+      reduxFirestore(fbConfig) // redux bindings for firestore
+    )
+  );
 
 ReactDOM.render(
     <Provider store={store}>
