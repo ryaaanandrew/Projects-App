@@ -5,7 +5,7 @@ const ProjectList = ({ projects }) => {
     
     const renderList = () => {
         return projects.map(project => {
-            return <ProjectSummary title={project.title} content={project.content} id={project.id} />
+            return <ProjectSummary title={project.title} content={project.content} key={project.id} />
         });
     };
 

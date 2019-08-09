@@ -1,3 +1,5 @@
+import { ADD_PROJECT } from "../types";
+
 const INITIAL_STATE = {
     projects: [
         {id: 1, title: 'test project 1', content: 'this is just a test'},
@@ -8,6 +10,9 @@ const INITIAL_STATE = {
 
 const projectReducer = (state = INITIAL_STATE, action) => {
     switch(action.type) {
+        case ADD_PROJECT:
+            console.log('in reducers', action.payload)
+            return state;
         default:
             return state;
     };

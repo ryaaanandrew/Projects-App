@@ -1,13 +1,14 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
+import { connect } from 'react-redux'
+import { createProject } from '../../store/actions/projectActions';
 
-const CreateProject = () => {
-    const titleRef = useRef();
-    const contentRef = useRef();
+const CreateProject = props => {
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(titleRef.current.value);
-        console.log(contentRef.current.value);   
+        props.createProject({ title, content });
     };
 
     return (
@@ -16,11 +17,11 @@ const CreateProject = () => {
                 <h5 className="grey-text text-darken-3">Create a project</h5>
                 <div className="input-field">
                     <label htmlFor="title">project title</label>
-                    <input type="text" id="title" ref={titleRef} />
+                    <input type="text" id="title"  onChange={(e) => setTitle(e.target.value)}/>
                 </div>
                 <div className="input-field">
                     <label htmlFor="content">project ontent</label>
-                    <textarea id="content" className="materialize-textarea" ref={contentRef}></textarea>
+                    <textarea id="content" className="materialize-textarea" onChange={(e) => setContent(e.target.value)}/>
                 </div>
                 <div className="input-field">
                     <button className="button btn pink lighten-1 z-depth-0">create</button>
@@ -30,4 +31,10 @@ const CreateProject = () => {
     );
 };
 
-export default CreateProject;
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         createProject: (project) => dispatch(createProject(project))
+//     }
+// }
+
+export default connect(null, {createProject})(CreateProject);
