@@ -12,7 +12,7 @@ import fbConfig from './config/firebaseConfig';
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(rootReducer,
-    compose(
+    composeEnhancers(
       applyMiddleware(reduxThunk.withExtraArgument({getFirebase, getFirestore})),
       reactReduxFirebase(fbConfig), // redux binding for firebase
       reduxFirestore(fbConfig) // redux bindings for firestore

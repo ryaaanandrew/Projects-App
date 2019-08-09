@@ -1,8 +1,10 @@
+import { firestoreReducer }  from 'redux-firestore';
 import { combineReducers } from 'redux';
 import authReducer from './authReducer';
 import projectReducer from './projectReducer';
 
 export default combineReducers({
     auth: authReducer,
-    projects: projectReducer
+    projects: projectReducer,
+    firestore: firestoreReducer
 });
