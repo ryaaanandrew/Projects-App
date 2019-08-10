@@ -1,13 +1,14 @@
 import React, { useRef } from 'react';
+import { connect } from 'react-redux';
+import { signIn } from '../../store/actions/authActions';
 
-const SignIn = () => {
+const SignIn = props => {
     const emailRef = useRef();
     const passwordRef = useRef();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('email: ', emailRef.current.value, 'password: ', passwordRef.current.value);
-        emailRef.current.value = '';
+        props.signIn( emailRef.current.value, passwordRef.current.value );
     };
 
     return (
@@ -24,10 +25,17 @@ const SignIn = () => {
                 </div>
                 <div className="input-field">
                     <button className="button btn pink lighten-1 z-depth-0">Login</button>
+                    { props.authError ? <div className="red-text center">{ props.authError }</div> : null }
                 </div>
             </form>
         </div>
     );
 };
 
-export default SignIn;
+const mapStateToProps = state => {
+    return {
+        authError: state.auth.authError
+    }
+};
+
+export default connect(mapStateToProps, { signIn })(SignIn);
