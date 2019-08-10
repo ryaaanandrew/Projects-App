@@ -1,7 +1,9 @@
 import {
     SIGN_IN,
     SIGN_IN_ERR,
-    SIGN_OUT
+    SIGN_OUT,
+    SIGN_UP_SUCCESS,
+    SIGN_UP_ERR
 } from '../types';
 
 const INITIAL_STATE = {
@@ -19,6 +21,12 @@ const authReducer = (state = INITIAL_STATE, action) => {
         case SIGN_OUT:
             console.log('signout success');
             return state;
+        case SIGN_UP_SUCCESS:
+            console.log('sign up success');
+            return state;
+        case SIGN_UP_ERR:
+            console.log(action.payload);
+            return { ...state, authError: action.payload }
         default:
             return state;
     };

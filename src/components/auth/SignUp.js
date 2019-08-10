@@ -1,6 +1,9 @@
 import React, { useRef } from 'react';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { signUp } from '../../store/actions/authActions';
 
-const SignUp = () => {
+const SignUp = props => {
     const emailRef = useRef();
     const passwordRef = useRef();
     const firstNameRef = useRef();
@@ -8,9 +11,16 @@ const SignUp = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('email: ', emailRef.current.value, 'password: ', passwordRef.current.value, firstNameRef.current.value, lastNameRef.current.value);
-        emailRef.current.value = '';
+        const newUser = {
+            email: emailRef.current.value,
+            password: passwordRef.current.value,
+            firstName: firstNameRef.current.value,
+            lastName: lastNameRef.current.value
+        };
+        props.signUp(newUser);
     };
+
+    if(props.auth.uid) return <Redirect to='/' />
 
     return (
         <div className="container">
@@ -40,4 +50,10 @@ const SignUp = () => {
     );
 };
 
-export default SignUp;
+const mapStateToProps = state => {
+    return {
+        auth: state.firebase.auth
+    }
+};
+
+export default connect(mapStateToProps, { signUp })(SignUp);
