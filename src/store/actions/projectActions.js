@@ -8,9 +8,6 @@ export const createProject = (project) => async (dispatch, getState, { getFirest
         const firestore = getFirestore();
         await firestore.collection('projects').add({
             ...project,
-            authorFirstName: 'Ryan',
-            authorLastName: 'Andrew',
-            authorId: 12345,
             createdAt: new Date()            
         });
         dispatch({

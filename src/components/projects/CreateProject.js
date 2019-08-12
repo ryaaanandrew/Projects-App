@@ -9,7 +9,15 @@ const CreateProject = props => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        props.createProject({ title, content });
+        const projectDetails = {
+            title,
+            content,
+            authorFirstName: props.profile.firstName,
+            authorLastName: props.profile.lastName,
+            authorId: props.auth.uid
+        };
+        props.createProject(projectDetails);
+        props.history.push('/');
     };
 
     if(!props.auth.uid) return <Redirect to='/signin' />;
@@ -23,7 +31,7 @@ const CreateProject = props => {
                     <input type="text" id="title"  onChange={(e) => setTitle(e.target.value)}/>
                 </div>
                 <div className="input-field">
-                    <label htmlFor="content">project ontent</label>
+                    <label htmlFor="content">project content</label>
                     <textarea id="content" className="materialize-textarea" onChange={(e) => setContent(e.target.value)}/>
                 </div>
                 <div className="input-field">
@@ -36,7 +44,8 @@ const CreateProject = props => {
 
 const mapStateToProps = state => {
     return {
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        profile: state.firebase.profile
     }
 };
 
