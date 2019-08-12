@@ -44,6 +44,9 @@ const SignUp = props => {
                 </div>
                 <div className="input-field">
                     <button className="button btn pink lighten-1 z-depth-0">Sign up</button>
+                    <div className="red-text center">
+                        { props.authErr ? <p>{ props.authErr }</p> : null }
+                    </div>
                 </div>
             </form>
         </div>
@@ -52,7 +55,8 @@ const SignUp = props => {
 
 const mapStateToProps = state => {
     return {
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        authErr: state.auth.authError
     }
 };
 

@@ -10,15 +10,17 @@ const NavBar = props => {
         <nav className="nav-wrapper grey darken-3">
             <div className="container">
                 <Link to='/' className='brand-logo'>Planner</Link>
-                { props.auth.isEmpty ? <SignedOutLinks /> : <SignedInLinks /> }
+                { props.auth.isEmpty ? <SignedOutLinks /> : <SignedInLinks profile={props.profile}/> }
             </div>
         </nav>
     );
 };
 
 const mapStateToProps = state => {
+    console.log(state);
     return {
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        profile: state.firebase.profile
     }
 }
 

@@ -7,56 +7,44 @@ import {
 } from '../types';
 
 export const signIn = (email, password) => async (dispatch, getState, { getFirebase }) => {
-    try {  
-        const firebase = getFirebase();
+    const firebase = getFirebase();
+    try {
         await firebase.auth().signInWithEmailAndPassword( email, password );
-        dispatch({
-            type: SIGN_IN
-        });
+        
+        dispatch({ type: SIGN_IN });
     } catch(err) {
-        dispatch({
-            type: SIGN_IN_ERR,
-            payload: err.message
-        });
+        dispatch({ type: SIGN_IN_ERR, payload: err.message });
     };
 };
 
 export const signOut = () => async (dispatch, getState, { getFirebase }) => {
+    const firebase = getFirebase();
     try {
-        const firebase = getFirebase();
         await firebase.auth().signOut();
 
-        dispatch({
-            type: SIGN_OUT
-        });
+        dispatch({ type: SIGN_OUT });
     } catch(err) {
         console.log(err);
     };
 };
 
 export const signUp = (newUser) => async (dispatch, getState, { getFirebase, getFirestore }) => {
-    try {
-        const firebase = getFirebase();
-        const firestore = getFirestore();
+    const firebase = getFirebase();
+    const firestore = getFirestore();
+    
+    const response = await firebase.auth().createUserWithEmailAndPassword(
+        newUser.email,
+        newUser.password
+    ).catch(err => {
+        dispatch({ type: SIGN_UP_ERR, payload: err});
+    });
 
-        const response = await firebase.auth().createUserWithEmailAndPassword(
-            newUser.email,
-            newUser.password
-        );
-
+    if(response) {
         firestore.collection('users').doc(response.user.uid).set({
             firstName: newUser.firstName,
             lastName: newUser.lastName,
             initials: newUser.firstName[0] + newUser.lastName[0]
         });
-
-        dispatch({
-            type: SIGN_UP_SUCCESS
-        });
-    } catch(err) {
-        console.log(err);
-        dispatch({
-            type: SIGN_UP_ERR
-        });
-    }
+        dispatch({ type: SIGN_UP_SUCCESS });
+    };
 };

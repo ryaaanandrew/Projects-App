@@ -28,7 +28,7 @@ const mapStateToProps = state => {
     return {
         projects: state.firestore.ordered.projects,
         auth: state.firebase.auth
-    }
+    };
 };
 
 export default compose(
@@ -36,4 +36,4 @@ export default compose(
     firestoreConnect([
       { collection: 'projects' }
     ])
-  )(Dashboard)
+)(Dashboard);

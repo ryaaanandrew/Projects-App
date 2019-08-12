@@ -14,8 +14,8 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(rootReducer,
 	composeEnhancers(
 		applyMiddleware(reduxThunk.withExtraArgument({getFirebase, getFirestore})),
-		reactReduxFirebase(fbConfig, { attachAuthIsReady: true }), // redux binding for firebase
-		reduxFirestore(fbConfig) // redux bindings for firestore
+		reactReduxFirebase(fbConfig, { attachAuthIsReady: true, useFirestoreForProfile: true, userProfile: 'users' }), 
+		reduxFirestore(fbConfig) 
 	)
 );
 
